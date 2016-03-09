@@ -1,0 +1,21 @@
+Key Functionality:
+
+Import results
+Import fixtures
+Display fixtures
+Display previous results for fixture
+Display previous results for team
+Calculate teams recent form
+Generate prediction
+
+
+Classes:
+
+Import Class
+
+fileName
+importFile()
+
+
+Import Results		 Import Fixtures
+
