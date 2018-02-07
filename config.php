@@ -5,8 +5,10 @@ $MAINURL = "http://http://www.football-data.co.uk/";
 $FIXTURES = $MAINURL."fixtures.csv";
 
 $GAMELIMITER = 5;
+$GRGAMELIMITER = 5;
+$STARTINGPOINT = 0;
 
-$YEAR = "1516";
+$YEAR = "1718";
 
 //an array containing the csv name for the results
 //english leagues...
@@ -52,6 +54,31 @@ $pageArray['GREECE']['PL'] = "G1";
 
 //portugese league
 $pageArray['PORTUGAL']['PL'] = "P1";
+
+$lookUpArray = array (
+    'B1' => "Belgian Jupiler League",
+    'D1' => "Bundesliga",
+    'D2' => "Bundesliga 2",
+    'E0' => "EPL",
+    "E1" => "Championship",
+    "E2" => "League 1",
+    "E3" => "League 2",
+    "EC" => "Conference",
+    "F1" => "Ligue Un",
+    "F2" => "Ligue Deux",
+    "G1" => "Greek",
+    "I1" => "Serie A",
+    "I2" => "Serie B",
+    "N1" => "Eredivisie",
+    "P1" => "Portuguese",
+    "SC0" => "SPL",
+    "SC1" => "Scottish Championship",
+    "SC2" => "Scottish League 1",
+    "SC3" => "Scottish League 2",
+    "SP1" => "La Liga",
+    "SP2" => "La Segunda",
+    "T1" => "Turkish"
+);
 
 
 if ($_SERVER['HTTP_HOST'] == "localhost") {

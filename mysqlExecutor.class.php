@@ -10,14 +10,13 @@ class mysqlExecutor
 		global $USERNAME;
 		global $PASSWORD;
 		
-		return mysql_connect ($SERVERNAME, $USERNAME, $PASSWORD);
+		return mysqli_connect ($SERVERNAME, $USERNAME, $PASSWORD, $this->select_db());
 	}
-		
 		
 	//get connection error
 	function getConnectionError()
 	{
-		return 'I cannot connect to the database because: ' . mysql_error();
+		return 'I cannot connect to the database because: ' . mysqli_error();
 	}
 		
 	//select the database
@@ -25,45 +24,42 @@ class mysqlExecutor
 	{
 		global $DATABASE;
 		
-		return mysql_select_db ($DATABASE);
+		return $DATABASE;
 	}
-		
 		
 	//execute the query
 	function executeQuery($sql)
 	{
-		$val = mysql_query($sql);	
+		$val = mysqli_query($this->db_connect(), $sql);	
 		return $val;	
 	}
 
-		
 	//format the results
 	function formatResults($result)
 	{
 		$i=0;
-		$ret = "";
+		$ret = array();
 	
-		while ($row = mysql_fetch_assoc($result)) {
+		while ($row = mysqli_fetch_assoc($result)) {
 			foreach ($row as $key => $value) {
 				$ret[$i][$key] = $value;
 			}
+
 			$i++;
 		}
 		
 		return array ( 
 			'res' => $ret, 
 			'rows' => $i ,
-			'insertid' => mysql_insert_id() ,
+			'insertid' => mysqli_insert_id($this->db_connect()) ,
 		);			
 	}
-		
-		
+
 	//get the error
 	function getError()
 	{
-		return mysql_error();
+		return mysqli_error($this->db_connect());
 	}
-		
 		
 	//prepare the query
 	function prepareQuery($sql)
@@ -130,7 +126,7 @@ class mysqlExecutor
 		}
 		
 		$info['sql'] = $sql;
-		$info['insertid'] = mysql_insert_id();
+		$info['insertid'] = mysqli_insert_id($this->db_connect());
 		
 		return $info;
 	}
@@ -148,9 +144,6 @@ class mysqlExecutor
 			
 		$queryresult = $this->executeQuery($sql);	
 	}
-
-
 }
-
 
 ?>

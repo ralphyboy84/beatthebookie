@@ -23,9 +23,12 @@ class fixtures
 				$awayTeamScore->setTeam($vals['awayteam']);
 				$ats = $awayTeamScore->getTeamScore();
 				
-				$res['res'][$x]['pointsPrediction'] = $this->generatePointsPrediction($hts, $ats);
-				$res['res'][$x]['goalsPrediction'] = $this->generateGoalsPrediction($hts, $ats);
+                $res['res'][$x]['pointsdiff'] = $this->getPointsDiff($hts, $ats);
+                $res['res'][$x]['goals'] = $this->getTotalGoals($hts, $ats);
+				//$res['res'][$x]['pointsPrediction'] = $this->generatePointsPrediction($hts, $ats);
+				//$res['res'][$x]['goalsPrediction'] = $this->generateGoalsPrediction($hts, $ats);
 				$res['res'][$x]['league'] = $this->getLeagueName($vals);
+                $res['res'][$x]['leaguecode'] = $vals['league'];
 				
 				$x++;
 			}
@@ -34,10 +37,27 @@ class fixtures
 		return $res['res'];
 	}
 	
+    private function getPointsDiff($h, $a)
+    {
+        $points = $h['totalPoints'] - $a['totalPoints'];   
+        
+        if ($points < 0) {
+            return abs($points);   
+        }
+        
+        return $points;
+    }
+    
+    private function getTotalGoals($h, $a)
+    {
+        global $GAMELIMITER;
+        return round((($h['totalGoalsScored'] + $h['totalGoalsConceeded'] + $a['totalGoalsScored'] + $a['totalGoalsConceeded']) / $GAMELIMITER) / 2, 2);
+    }
+    
 	private function generatePointsPrediction($h, $a)
 	{
-		$homeWinSeperator = 8;
-		$awayWinSeperator = 8;
+		$homeWinSeperator = 6;
+		$awayWinSeperator = 6;
 	
 		if (((($h['totalPoints'] + $h['homePoints'])/2) - (($a['totalPoints']+$a['awayPoints'])/2)) > $homeWinSeperator) {
 			return "HOME WIN";
@@ -58,21 +78,35 @@ class fixtures
 		$goalsConceededSeperator = 1;
 		
 		global $GAMELIMITER;
+        
+        if ($h['totalGoalsScored'] > 5 && 
+            $a['totalGoalsScored'] > 5 && 
+            $h['totalGoalsConceeded'] > 5 && 
+            $a['totalGoalsConceeded'] > 5) {
+			return "GOAL RUSH";
+		} else if ($h['totalGoalsScored'] < 3 && 
+            $a['totalGoalsScored'] < 3 && 
+            $h['totalGoalsConceeded'] < 3 && 
+            $a['totalGoalsConceeded'] < 3) {
+			return "NO GOAL RUSH";
+		}
 	
-		if ($h['totalGoalsScored'] > 9 && $a['totalGoalsScored'] > 11) {
+		/*if ($h['totalGoalsScored'] > 9 && $a['totalGoalsScored'] > 11) {
 			return "GOAL RUSH - BOTH TEAMS SCORING LOTS";
 		} else if ($h['totalGoalsConceeded'] > 9 && $a['totalGoalsConceeded'] > 9) {
 			return "GOAL RUSH - BOTH TEAMS CONCEEDING LOTS";
-		} else if (	$h['totalGoalsScored'] > 5 && 
+		} else if (	$h['totalGoalsScored'] > 7 && 
 					$a['totalGoalsScored'] > 7 && 
 					$h['totalGoalsConceeded'] > 7 && 
-					$a['totalGoalsConceeded'] > 5) {
+					$a['totalGoalsConceeded'] > 7) {
 			return "GOAL RUSH - BOTH TEAMS SCORING AND CONCEEDING LOTS - BIG ONE!!!";
 		} else if ($h['homeGoalsScored'] > 9 && $a['awayGoalsScored'] > 11) {
 			return "GOAL RUSH HOME TEAM SCORING LOTS AT HOME AND AWAY TEAM SCORING LOTS AWAY";
 		} else if ($h['homeGoalsConceeded'] > 11 && $a['awayGoalsConceeded'] > 9) {
 			return "GOAL RUSH HOME TEAM CONCEEDING LOTS AT HOME AND AWAY TEAM CONCEEDING LOTS AWAY";
-		}  if ((($h['totalGoalsScored'] + $a['totalGoalsScored'] + $h['totalGoalsConceeded'] + $a['totalGoalsConceeded']) / $GAMELIMITER) > 7) {
+		}*/  
+        
+        if ((($h['totalGoalsScored'] + $a['totalGoalsScored'] + $h['totalGoalsConceeded'] + $a['totalGoalsConceeded']) / $GAMELIMITER) > 8) {
 			return "GOAL RUSH - OVER 2.5 GOALS!";
 		}else {
 			return "TOO CLOSE TO CALL FOR GR";

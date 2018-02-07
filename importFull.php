@@ -4,7 +4,7 @@ require_once("config.php");
 require_once("importResults.class.php");
 
 $seasonArray = array(
-	1011,1112,1213,1314,1415,1516
+	1415,1516,1617,1718
 );
 
 $countries = array (

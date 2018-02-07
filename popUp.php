@@ -14,7 +14,6 @@ $homeTeam->setTeam($info['hometeam']);
 $h = $homeTeam->getHomeHistoryTable();
 $ht = $homeTeam->getTotalHistoryTable();
 
-
 $awayTeam = new teamHistoryTable();
 $awayTeam->setTeam($info['awayteam']);
 $a = $awayTeam->getAwayHistoryTable();

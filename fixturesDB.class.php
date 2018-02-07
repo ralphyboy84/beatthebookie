@@ -10,7 +10,7 @@ class fixturesDB extends mysqlExecutor
 		
 		if ( $args ) {
 			foreach ( $args as $key => $vals ) {
-				$params[] = " `$key` = '".trim(mysql_real_escape_string($vals))."' ";
+				$params[] = " `$key` = '".trim(mysqli_real_escape_string($this->db_connect(), $vals))."' ";
 			}
 		}
 		
@@ -37,7 +37,7 @@ EOSQL;
 		$sql=<<<EOSQL
 		TRUNCATE table fixtures
 EOSQL;
-		return $this->prepareQuery($sql);
+		return $this->deleteQuery($sql);
 	}
 	
 	public function returnAFixture($args)

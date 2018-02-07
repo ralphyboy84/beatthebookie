@@ -7,15 +7,23 @@ $(document).ready(function(){
 			$("div .noPredictorRow").addClass("hideRow");
 		}
 	});
-	
+    
+    $("#showLeague").change(function(){
+        if (!$(this).val()) {
+            $("div .well").removeClass("hideRow");
+        } else {
+            $("div .well").addClass("hideRow");
+            $("div ."+$(this).val()).removeClass("hideRow");
+        }
+	});
+    
 	$(".previewCell").click(function(){
 		fixtureid = $(this).attr("data-fixtureid");
 		
 		$('#dialog').dialog({
 			width:'90%',
-			modal: true,
-			position: { my: "center top+25", at: "top+25" }
-		});
+			modal: true
+        });
 		
 		$.ajax({
 			url: "popUp.php",

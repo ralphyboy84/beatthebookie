@@ -7,9 +7,8 @@ require_once("resultsDB.class.php");
 $db = new resultsDB();
 $db->truncateTable();
 
-
 $seasonArray = array(
-	1516
+	$YEAR
 );
 
 $countries = array (
@@ -22,7 +21,8 @@ $countries = array (
 	"BELGIUM",
 	"TURKEY",
 	"GREECE",
-	"PORTUGAL"
+	"PORTUGAL",
+    "FRANCE"
 );
 
 foreach ($seasonArray as $season) {

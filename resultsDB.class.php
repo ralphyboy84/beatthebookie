@@ -10,7 +10,7 @@ class resultsDB extends mysqlExecutor
 		
 		if ( $args ) {
 			foreach ( $args as $key => $vals ) {
-				$params[] = " `$key` = '".trim(mysql_real_escape_string($vals))."' ";
+				$params[] = " `$key` = '".trim(mysqli_real_escape_string($this->db_connect(), $vals))."' ";
 			}
 		}
 		
@@ -22,16 +22,18 @@ class resultsDB extends mysqlExecutor
 	public function getTeamResultsAll($args)
 	{
 		global $GAMELIMITER;
+        global $YEAR;
+        global $STARTINGPOINT;
 		
 		$team = $args['team'];
 		
 		$sql=<<<EOSQL
 		SELECT *
-		FROM results1516
+		FROM results$YEAR
 		WHERE ( hometeam = '$team' 
 		OR awayteam = '$team' )
 		ORDER BY date DESC
-		LIMIT 0,$GAMELIMITER
+		LIMIT $STARTINGPOINT,$GAMELIMITER
 EOSQL;
 		return $this->prepareQuery($sql);
 	}
@@ -39,15 +41,17 @@ EOSQL;
 	public function getTeamResultsHome($args)
 	{
 		global $GAMELIMITER;
+        global $YEAR;
+        global $STARTINGPOINT;
 		
 		$team = $args['team'];
 		
 		$sql=<<<EOSQL
 		SELECT *
-		FROM results1516
+		FROM results$YEAR
 		WHERE hometeam = '$team'
 		ORDER BY date DESC
-		LIMIT 0,$GAMELIMITER
+		LIMIT $STARTINGPOINT,$GAMELIMITER
 EOSQL;
 		return $this->prepareQuery($sql);
 	}
@@ -55,25 +59,29 @@ EOSQL;
 	public function getTeamResultsAway($args)
 	{
 		global $GAMELIMITER;
+        global $YEAR;
+        global $STARTINGPOINT;
 	
 		$team = $args['team'];
 		
 		$sql=<<<EOSQL
 		SELECT *
-		FROM results1516
+		FROM results$YEAR
 		WHERE awayteam = '$team'
 		ORDER BY date DESC
-		LIMIT 0,$GAMELIMITER
+		LIMIT $STARTINGPOINT,$GAMELIMITER
 EOSQL;
 		return $this->prepareQuery($sql);
 	}
 	
 	public function truncateTable()
 	{
+        global $YEAR;
+        
 		$sql=<<<EOSQL
-		TRUNCATE table results1516
+		TRUNCATE table results$YEAR
 EOSQL;
-		return $this->prepareQuery($sql);
+		return $this->deleteQuery($sql);
 	}
 	
     public function returnResultByTeamAndDate($args)
@@ -92,6 +100,15 @@ EOSQL;
         AND awayteam = '$a'
 EOSQL;
         return $this->prepareQuery($sql);   
+    }
+    
+    public function getAllResults()
+    {
+        global $YEAR;
+        
+        $sql = "SELECT * FROM results$YEAR";
+        
+        return $this->prepareQuery($sql);
     }
 }
 

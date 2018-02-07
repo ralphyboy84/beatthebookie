@@ -9,6 +9,8 @@ class fixturesTable extends fixtures
 	{
 		$fixtures = new fixtures();
 		$info = $fixtures->getFixtures();
+        
+        $x=1;
 		
 		if ($info) {
 			foreach ($info as $vals) {
@@ -23,36 +25,48 @@ class fixturesTable extends fixtures
 				$pointsPrediction = $vals['pointsPrediction'];
 				$goalsPrediction = $vals['goalsPrediction'];
 				
-				$rowClass = "noPredictorRow hideRow";
+				//$rowClass = "noPredictorRow hideRow";
 				
 				if ($pointsPrediction != "TOO CLOSE TO CALL") {
 					$class = "highlightCell";
-					$rowClass = "predictorRow showRow";
+					//$rowClass = "predictorRow showRow";
 				} else {
 					$class = '';
 				}
 				
 				if (strstr($goalsPrediction, "GOAL RUSH")) {
 					$classGoal = "highlightCell";
-					$rowClass = "predictorRow showRow";
+					//$rowClass = "predictorRow showRow";
 				} else {
 					$classGoal = '';
 				}
 			
-				$row[]=<<<EOROW
-				<div class='row well $rowClass previewCell' data-fixtureid='$fixtureid'>
+                $code = $vals['leaguecode'];
+                $pointsdiff = $vals['pointsdiff'];
+                $goals = $vals['goals'];
+                
+                if ($_GET['mode'] == "gr") {
+                    $akey = str_replace(".", "", $vals['goals'])."a".$x;
+                } else {
+                    $akey = $vals['pointsdiff']."a".$x;
+                }
+                
+				$row[$akey]=<<<EOROW
+				<div class='row well $rowClass showRow previewCell $code' data-fixtureid='$fixtureid'>
+                    <div class="col-lg-2 col-xs-12">Game $x</div>
                     <div class="col-lg-2 col-xs-12">$date</div>
-                    <div class="col-lg-3 col-xs-12">$league</div>
-                    <div class="col-lg-3 col-xs-12">$homeTeam vs $awayTeam</div>
-                    <div class="col-lg-2 col-xs-12 $class">$pointsPrediction</div>
-                    <div class="col-lg-2 col-xs-12 $classGoal">$goalsPrediction</div>
+                    <div class="col-lg-2 col-xs-12">$league</div>
+                    <div class="col-lg-2 col-xs-12">$homeTeam vs $awayTeam</div>
+                    <div class="col-lg-2 col-xs-12">Points Difference - $pointsdiff</div>
+                    <div class="col-lg-2 col-xs-12">Goals - $goals</div>
 				</div>
 EOROW;
-				
-			}
+                $x++;
+			}    
 		}
 		
 		if ($row) {
+            krsort($row);
 			return implode($row);
 		}
 	}
