@@ -52,7 +52,6 @@ class teamHistory
 		
 		return $home['res'];		
 	}
-
 }
 
 ?>

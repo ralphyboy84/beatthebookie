@@ -109,7 +109,76 @@ EOSQL;
         $sql = "SELECT * FROM results$YEAR";
         
         return $this->prepareQuery($sql);
-    }
+	}
+	
+	public function leagueAverages()
+	{
+		$sql = "
+SELECT league, games, hgoals, agoals, havg, aavg, hgoals+agoals as tgoals, havg+aavg as tavg FROM
+(SELECT league, 
+count(*) as games, 
+SUM(homescore) as hgoals, 
+SUM(awayscore) as agoals,
+AVG(homescore) as havg,
+AVG(awayscore) as aavg
+FROM results1718 
+GROUP BY league)
+x
+ORDER BY tavg DESC
+		";
+
+		return $this->prepareQuery($sql);
+	}
+
+	public function hometeamAverages($args = false)
+	{
+		if ($args['limit']) {
+			$limitSql = "LIMIT 0, ".$args['limit'];
+		}
+
+		$sql = "
+SELECT league, hometeam, games, hgoals, agoals, havg, aavg, hgoals+agoals as tgoals, havg+aavg as tavg FROM
+(SELECT league,
+hometeam, 
+count(*) as games, 
+SUM(homescore) as hgoals, 
+SUM(awayscore) as agoals,
+AVG(homescore) as havg,
+AVG(awayscore) as aavg
+FROM results1718 
+GROUP BY hometeam)
+x
+ORDER BY havg DESC
+$limitSql
+		";
+
+		return $this->prepareQuery($sql);
+	}
+
+	public function awayteamAverages($args = false)
+	{
+		if ($args['limit']) {
+			$limitSql = "LIMIT 0, ".$args['limit'];
+		}
+
+		$sql = "
+SELECT league, awayteam, games, hgoals, agoals, havg, aavg, hgoals+agoals as tgoals, havg+aavg as tavg FROM
+(SELECT league,
+awayteam, 
+count(*) as games, 
+SUM(homescore) as hgoals, 
+SUM(awayscore) as agoals,
+AVG(homescore) as havg,
+AVG(awayscore) as aavg
+FROM results1718 
+GROUP BY awayteam)
+x
+ORDER BY aavg DESC
+$limitSql
+		";
+
+		return $this->prepareQuery($sql);
+	}
 }
 
 ?>

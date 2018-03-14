@@ -41,6 +41,7 @@ class mysqlExecutor
 		$ret = array();
 	
 		while ($row = mysqli_fetch_assoc($result)) {
+			$ret[$i]['key'] = $i;
 			foreach ($row as $key => $value) {
 				$ret[$i][$key] = $value;
 			}

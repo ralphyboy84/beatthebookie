@@ -26,7 +26,7 @@ class fixturesDB extends mysqlExecutor
 		$sql=<<<EOSQL
 		SELECT *
 		FROM fixtures
-		WHERE date >= '$date'
+		-- WHERE date >= '$date'
 		ORDER BY `date` ASC
 EOSQL;
 		return $this->prepareQuery($sql);
