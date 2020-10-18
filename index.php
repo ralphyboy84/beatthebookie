@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-		
+
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 
@@ -20,16 +20,16 @@
 		<link rel="stylesheet" href="styles.css">
 		<script src="js.js"></script>
 	</head>
-	
+
 	<body>
 		<div class="wrapper">
 			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-8">
+				<div class="col-md-1"></div>
+				<div class="col-md-10">
 				<span class='mainHead'>BEAT</span><br />
 				<span class='subHead'>THE BOOKIE</span><br /><br />
 				<!-- <span class='fixtureLabel'>Select Fixtures to Show: <select id='showAllFixtures'><option value='no'>PREDICTED</option><option value='yes'>ALL</option></select></span><br /><br />-->
-                    <span class='fixtureLabel'>Select League to Show: 
+                    <span class='fixtureLabel'>Select League to Show:
                         <select id='showLeague'>
                             <option value=''>ALL</option>
                             <option value='E0'>EPL</option>
@@ -56,19 +56,33 @@
                             <option value='P1'>PORTUGAL</option>
                         </select>
                     </span><br /><br />
+
 <?php
 
-require_once("config.php");
-require_once ("fixturesTable.class.php");
+    if ($_GET['mode']) {
+        $option = "selected='selected'";
+    }
 
-$fixtureList = new fixturesTable();
-$table = $fixtureList->getFixturesTable();
-echo $table;
+    echo "
+    <span class='fixtureLabel'>Select Mode:
+        <select id='showMode'>
+            <option value=''>To Win</option>
+            <option value='gr' $option>Goals</option>
+        </select>
+    </span><br /><br />
+    ";
+
+    require_once "config.php";
+    require_once "fixturesTable.class.php";
+
+    $fixtureList = new fixturesTable();
+    $table = $fixtureList->getFixturesTable();
+    echo $table;
 
 ?>
 								</div>
-  <div class="col-md-2"></div>
-  
+  <div class="col-md-1"></div>
+
   <div id="dialog" title="Preview Information">
 </div>
 </div>

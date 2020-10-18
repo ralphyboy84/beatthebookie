@@ -8,7 +8,7 @@ $GAMELIMITER = 5;
 $GRGAMELIMITER = 5;
 $STARTINGPOINT = 0;
 
-$YEAR = "1718";
+$YEAR = "2021";
 
 //an array containing the csv name for the results
 //english leagues...
@@ -55,7 +55,7 @@ $pageArray['GREECE']['PL'] = "G1";
 //portugese league
 $pageArray['PORTUGAL']['PL'] = "P1";
 
-$lookUpArray = array (
+$lookUpArray = array(
     'B1' => "Belgian Jupiler League",
     'D1' => "Bundesliga",
     'D2' => "Bundesliga 2",
@@ -77,20 +77,18 @@ $lookUpArray = array (
     "SC3" => "Scottish League 2",
     "SP1" => "La Liga",
     "SP2" => "La Segunda",
-    "T1" => "Turkish"
+    "T1" => "Turkish",
 );
 
-
 if ($_SERVER['HTTP_HOST'] == "localhost") {
-	//dev settings
-	$SERVERNAME = "localhost";
-	$USERNAME = "root";
-	$PASSWORD = "";
-	$DATABASE = "btbv2";
+    //dev settings
+    $SERVERNAME = "localhost";
+    $USERNAME = "root";
+    $PASSWORD = "";
+    $DATABASE = "btbv2";
 } else {
-	$SERVERNAME = "localhost";
-	$USERNAME = "ralphwar";
-	$PASSWORD = "Rdubz1984";
-	$DATABASE = "ralphwar_btbv2";
+    $SERVERNAME = "localhost";
+    $USERNAME = "ralphwar";
+    $PASSWORD = "Rdubz1984";
+    $DATABASE = "ralphwar_btbv2";
 }
-?>
